@@ -1,5 +1,6 @@
 import {useState} from 'react'
 import {useDispatch} from 'react-redux'
+import { createTodo } from '../features/todo/todoSlice';
 
 function TodoForm() {
     const [todo,setTodo] = useState('')
@@ -8,7 +9,10 @@ function TodoForm() {
     const onSubmit = e =>{
         e.preventDefault();
 
-        console.log(todo)
+        if (todo!='') {
+            dispatch(createTodo({todo}))
+            setTodo('')
+        }
     }
 
     return(
