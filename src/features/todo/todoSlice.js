@@ -1,5 +1,5 @@
 import {createSlice,createAsyncThunk} from '@reduxjs/toolkit'
-
+import todoService from './todoService'
 
 const initialState = {
     todos : [],
@@ -14,6 +14,28 @@ export const todoSlice = createSlice({
     initialState,
     reducers:{
         reset:(state)=>initialState
+    },
+    extraReducers:(builder)=>{
+        builder
+            .addCase(createTodo.pending,(state)=>{
+
+            })
+            .addCase(createTodo.fulfilled,(state,action)=>{
+
+            })
+            .addCase(createTodo.rejected,(state,action)=>{
+                
+            })
+    }
+})
+
+export const createTodo = createAsyncThunk('todos/create',async(todoData,thunkAPI)=>{
+    try {
+        const user = thunkAPI.getState().auth.user
+        return await todoService.createTodo(todoData,user)
+    } catch (error) {
+        const message = error.message
+        return thunkAPI.rejectWithValue(message)
     }
 })
 
