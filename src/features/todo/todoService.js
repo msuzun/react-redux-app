@@ -11,14 +11,14 @@ const createTodo = async (todoData,user)=>{
 }
 const getTodos =async(user)=>{
     const colRef = await collection(db,'yapilacaklar')
-    const q = query(colRef,where("uid","==",user.uid))
-
+    const q = query(colRef,where("uid","==",user.uid)) 
     const querySnapshot = await getDocs(q);
-
+    
     let dizi=[];
     querySnapshot.forEach((doc)=>{
         dizi.push({...doc.data(),id:doc.id})
     })
+    return dizi
 }
 const todoService ={
     createTodo,

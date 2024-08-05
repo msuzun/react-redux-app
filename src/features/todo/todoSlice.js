@@ -30,6 +30,7 @@ export const todoSlice = createSlice({
                 state.isLoading = true
             })
             .addCase(getTodos.fulfilled,(state,action)=>{
+             
                 state.isLoading = false
                 state.isSuccess = true
                 state.todos = action.payload
@@ -40,7 +41,7 @@ export const todoSlice = createSlice({
                 state.isSuccess = false
                 state.message = action.payload
                 state.isError = true
-                state.todos = []
+              
             })
     }
 })
@@ -58,6 +59,7 @@ export const createTodo = createAsyncThunk('todos/create',async(todoData,thunkAP
 export const getTodos = createAsyncThunk('todos/getAll',async(_,thunkAPI)=>{
     try {
         const user = thunkAPI.getState().auth.user
+       
         return await todoService.getTodos(user)
     } catch (error) {
         const message = error.message
