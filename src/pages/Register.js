@@ -3,7 +3,7 @@ import {useSelector,useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 import {register,reset} from '../features/auth/authSlice'
 import {toast} from 'react-toastify'
-
+import Spinner from '../components/spinner'
 export default function Register() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -51,6 +51,10 @@ export default function Register() {
     }
     dispatch(reset())
   },[user,isError,isSuccess,message,navigate,dispatch])
+
+  if (isLoading) {
+    return <Spinner />
+  }
   return (
     <div>
        <section className='heading'>
