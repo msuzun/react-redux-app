@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react'
 import {useSelector,useDispatch} from 'react-redux'
 import {useNavigate} from 'react-router-dom'
 import {register,reset} from '../features/auth/authSlice'
+import {toast} from 'react-toastify'
 
 export default function Register() {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ export default function Register() {
     console.log(formData);
 
     if (parola!==parolaKontrol) {
-      alert('Parolalar eşleşmedi')
+      toast.warning('Parolalar eşleşmedi')
     }
     else{
       const userData = {
@@ -42,9 +43,10 @@ export default function Register() {
 
   useEffect(()=>{
     if (isError) {
-      alert(message)
+      toast.error(message)
     }
-    if (isSuccess || user) {
+    const storedUser = localStorage.getItem('user');
+    if (isSuccess || storedUser) {
       navigate('/')
     }
     dispatch(reset())
