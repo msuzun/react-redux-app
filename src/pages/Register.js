@@ -1,6 +1,13 @@
-import {useState} from 'react'
+import {useEffect, useState} from 'react'
+import {useSelector,useDispatch} from 'react-redux'
+import {useNavigate} from 'react-router-dom'
+import {register,reset} from '../features/auth/authSlice'
 
 export default function Register() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const {user,isLoading,isSuccess,isError,message} = useSelector((state)=>state.auth)
+
   const [formData,setFormData] = useState({
     email:'',
     parola:'',
@@ -19,7 +26,29 @@ export default function Register() {
     e.preventDefault();
 
     console.log(formData);
+
+    if (parola!==parolaKontrol) {
+      alert('Parolalar eşleşmedi')
+    }
+    else{
+      const userData = {
+        email,
+        parola,
+        kullaniciAd
+      }
+      dispatch(register(userData))
+    }
   }
+
+  useEffect(()=>{
+    if (isError) {
+      alert(message)
+    }
+    if (isSuccess || user) {
+      navigate('/')
+    }
+    dispatch(reset())
+  },[user,isError,isSuccess,message,navigate,dispatch])
   return (
     <div>
        <section className='heading'>
