@@ -1,6 +1,6 @@
 import {db} from '../../firebase/config'
 
-import {collection,addDoc,getDoc} from 'firebase/firestore'
+import {collection,addDoc,getDoc,getDocs,query,where} from 'firebase/firestore'
 
 const createTodo = async (todoData,user)=>{
     const colRef = await collection(db,'yapilacaklar')
@@ -9,9 +9,20 @@ const createTodo = async (todoData,user)=>{
 
     return {...docSnap.data(), id:docSnap.id}
 }
+const getTodos =async(user)=>{
+    const colRef = await collection(db,'yapilacaklar')
+    const q = query(colRef,where("uid","==",user.uid))
 
+    const querySnapshot = await getDocs(q);
+
+    let dizi=[];
+    querySnapshot.forEach((doc)=>{
+        dizi.push({...doc.data(),id:doc.id})
+    })
+}
 const todoService ={
-    createTodo
+    createTodo,
+    getTodos
 }
 
 export default todoService;
