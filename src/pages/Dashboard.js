@@ -2,6 +2,8 @@ import {useEffect} from 'react'
 import {useNavigate} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 
+import TodoForm from '../components/todoForm';
+
 export default function Dashboard() {
 
   const navigate = useNavigate();
@@ -13,6 +15,8 @@ export default function Dashboard() {
     }
   },[user,navigate])
   return (
-    <div>Dashboard</div>
+    <div>
+      <TodoForm/>
+    </div>
   )
 }
