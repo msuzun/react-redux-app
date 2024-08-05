@@ -4,7 +4,7 @@ import {useSelector,useDispatch} from 'react-redux'
 import Spinner from '../components/spinner';
 import TodoForm from '../components/todoForm';
 import { getTodos,reset } from '../features/todo/todoSlice';
-
+import Todo from '../components/todo';
 export default function Dashboard() {
 
   const navigate = useNavigate();
@@ -31,6 +31,17 @@ export default function Dashboard() {
   return (
     <div>
       <TodoForm/>
+      <section className='content'>
+       {todos.length >0 ? (
+        <div className='todos'>
+            {todos.map((todo)=>
+              <Todo key={todo.id} t={todo}/>
+            )}
+        </div>
+       ):(
+        <h3>Henüz yapılacak eklemediniz</h3>
+       )}
+      </section>
     </div>
   )
 }
