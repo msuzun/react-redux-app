@@ -1,6 +1,6 @@
 import { json } from 'react-router-dom';
 import {auth} from '../../firebase/config'
-import {createUserWithEmailAndPassword,signOut,updateProfile} from 'firebase/auth'
+import {createUserWithEmailAndPassword,signInWithEmailAndPassword,signOut,updateProfile} from 'firebase/auth'
 
 
 const register = async (email,parola,kullaniciAd) =>{
@@ -21,9 +21,18 @@ const logout =  async () =>{
     localStorage.removeItem('user');
 }
 
+const login = async (email,parola) =>{
+    const userResponse = await signInWithEmailAndPassword(auth,email,parola);
+    if (userResponse.user) {
+        localStorage.setItem('user',JSON.stringify(userResponse.user))
+    }
+    return userResponse.user
+}
+
 const authService ={
     register,
-    logout
+    logout,
+    login
 }
 
 export default authService
