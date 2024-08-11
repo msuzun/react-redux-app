@@ -46,6 +46,16 @@ export const todoSlice = createSlice({
     }
 })
 
+export const deleteTodo = createAsyncThunk('todos/delete',async(id,thunkAPI)=>{
+    try {
+        return await todoService.deleteTodo(id)
+        const message = error.message
+        return thunkAPI.rejectWithValue(message)
+    } catch (error) {
+        
+    }
+})
+
 export const createTodo = createAsyncThunk('todos/create',async(todoData,thunkAPI)=>{
     try {
         const user = thunkAPI.getState().auth.user
