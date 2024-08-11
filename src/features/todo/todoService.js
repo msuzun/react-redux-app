@@ -1,6 +1,6 @@
 import {db} from '../../firebase/config'
 
-import {collection,addDoc,getDoc,getDocs,query,where} from 'firebase/firestore'
+import {collection,addDoc,getDoc,getDocs,query,where,doc,deleteDoc} from 'firebase/firestore'
 
 const createTodo = async (todoData,user)=>{
     const colRef = await collection(db,'yapilacaklar')
@@ -20,9 +20,18 @@ const getTodos =async(user)=>{
     })
     return dizi
 }
+
+const deleteTodo = async (id)=>{
+    const docRef = await doc(db,'yapilacaklar',id)
+    
+    await deleteDoc(docRef)
+
+    return id
+}
 const todoService ={
     createTodo,
-    getTodos
+    getTodos,
+    deleteTodo
 }
 
 export default todoService;
