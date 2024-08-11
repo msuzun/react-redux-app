@@ -18,13 +18,19 @@ export const todoSlice = createSlice({
     extraReducers:(builder)=>{
         builder
             .addCase(createTodo.pending,(state)=>{
-
+                state.isLoading = true
             })
             .addCase(createTodo.fulfilled,(state,action)=>{
-
+                state.isLoading = false
+                state.isError = false
+                state.isSuccess = true
+                state.todos.unshift(action.payload)
             })
             .addCase(createTodo.rejected,(state,action)=>{
-                
+                state.isLoading = false
+                state.isSuccess = false
+                state.isError = true
+                state.message = action.payload
             })
             .addCase(getTodos.pending,(state)=>{
                 state.isLoading = true
@@ -43,16 +49,32 @@ export const todoSlice = createSlice({
                 state.isError = true
               
             })
+            .addCase(deleteTodo.pending,(state)=>{
+                state.isLoading = true
+            })
+            .addCase(deleteTodo.fulfilled,(state,action)=>{
+                state.isLoading = false
+                state.isError = false
+                state.isSuccess = true
+                state.todos = state.todos.filter((todo)=> todo.id !== action.payload)
+            })
+            .addCase(deleteTodo.rejected,(state,action)=>{
+                state.isLoading = false
+                state.isSuccess = false
+                state.message = action.payload
+                state.isError = true
+              
+            })
     }
 })
 
 export const deleteTodo = createAsyncThunk('todos/delete',async(id,thunkAPI)=>{
     try {
         return await todoService.deleteTodo(id)
+       
+    } catch (error) {
         const message = error.message
         return thunkAPI.rejectWithValue(message)
-    } catch (error) {
-        
     }
 })
 
